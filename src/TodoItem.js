@@ -1,9 +1,11 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useReducer} from 'react'
 import { Context } from './context';
+import reducer from './reducer'
+
 
 export default function TodoItem({title, id, completed}) {
 
-  const {toggleTodo, removeTodo} = useContext(Context)
+  const {dispatch} = useContext(Context)
 
   let cls = ['todo']
 
@@ -14,14 +16,20 @@ export default function TodoItem({title, id, completed}) {
       <label>
         <input
           type="checkbox"
-          onClick = {() => toggleTodo(id)}
+          onClick = {() => dispatch({
+            type: 'toggle',
+            payload: id
+          })}
           checked={completed}
         />
         <span>{title}</span>
 
         <i
           className="material-icons red-text"
-          onClick = {() => removeTodo(id)}
+          onClick = {() => dispatch({
+            type: 'remove',
+            payload: id
+          })}
         >
           delete
         </i>
