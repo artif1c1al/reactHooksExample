@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import TodoList from './TodoList'
 
 export default function App() {
@@ -9,6 +9,17 @@ export default function App() {
   ])
 
   const [todoTitle, setTodoTitle] = useState('')
+  
+
+  useEffect(() => {
+    const raw = localStorage.getItem('todos') || []
+    setTodos(JSON.parse(raw))
+  }, []);
+  
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos))
+  }, [todos]);
+
 
   const addTodo = (e) => {
     if(e.key == "Enter"){
@@ -20,6 +31,7 @@ export default function App() {
           completed: false,
         }
       ])
+      setTodoTitle('');
     }
   }
 
